@@ -202,39 +202,41 @@
 }
 
 /* Reveal system — variants applied per section for variety */
-@utility reveal {
-  opacity: 0;
-  transition:
-    opacity var(--dur-slow) var(--ease-premium),
-    transform var(--dur-slow) var(--ease-premium),
-    clip-path var(--dur-slow) var(--ease-premium);
-  will-change: transform, opacity;
-}
+@layer components {
+  .reveal {
+    opacity: 0;
+    transition:
+      opacity var(--dur-slow) var(--ease-premium),
+      transform var(--dur-slow) var(--ease-premium),
+      clip-path var(--dur-slow) var(--ease-premium);
+    will-change: transform, opacity;
+  }
 
-@utility reveal-up {
-  transform: translate3d(0, 34px, 0);
-}
-@utility reveal-left {
-  transform: translate3d(-40px, 0, 0);
-}
-@utility reveal-right {
-  transform: translate3d(40px, 0, 0);
-}
-@utility reveal-scale {
-  transform: scale(0.94);
-}
-@utility reveal-clip {
-  clip-path: inset(0 0 100% 0);
-  transform: translate3d(0, 12px, 0);
-}
-@utility reveal-mask {
-  clip-path: inset(0 100% 0 0);
-}
+  .reveal-up {
+    transform: translate3d(0, 34px, 0);
+  }
+  .reveal-left {
+    transform: translate3d(-40px, 0, 0);
+  }
+  .reveal-right {
+    transform: translate3d(40px, 0, 0);
+  }
+  .reveal-scale {
+    transform: scale(0.94);
+  }
+  .reveal-clip {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 12px, 0);
+  }
+  .reveal-mask {
+    clip-path: inset(0 100% 0 0);
+  }
 
-@utility is-visible {
-  opacity: 1;
-  transform: none;
-  clip-path: inset(0 0 0 0);
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 /* Animated divider that draws itself */
