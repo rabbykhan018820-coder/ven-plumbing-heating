@@ -1,24 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Preloader } from "@/components/site/Preloader";
+import { Cursor } from "@/components/site/Cursor";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { Navbar } from "@/components/site/Navbar";
+import { Hero } from "@/components/site/Hero";
+import { Marquee } from "@/components/site/Marquee";
+import { Services } from "@/components/site/Services";
+import { Reel } from "@/components/site/Reel";
+import { Process } from "@/components/site/Process";
+import { EmergencyCTA } from "@/components/site/EmergencyCTA";
+import { Contact } from "@/components/site/Contact";
+import { Footer } from "@/components/site/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "VEN Plumbing & Heating | Boilers, Bathrooms & Emergency Repairs" },
+      {
+        name: "description",
+        content:
+          "Gas Safe registered plumbing and heating across Merseyside & Cheshire. Boiler installs, central heating, bathrooms and 24/7 emergency call-outs. Free quotations.",
+      },
+      { property: "og:title", content: "VEN Plumbing & Heating" },
+      {
+        property: "og:description",
+        content:
+          "Boiler installations, central heating, bathrooms and emergency repairs across Merseyside & Cheshire. Free quotations, fully insured.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="relative min-h-screen bg-background">
+      <Preloader />
+      <Cursor />
+      <ScrollProgress />
+      <Navbar />
+      <main>
+        <Hero />
+        <Marquee />
+        <Services />
+        <Reel />
+        <Process />
+        <EmergencyCTA />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
