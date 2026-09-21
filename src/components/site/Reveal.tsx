@@ -26,14 +26,17 @@ export function Reveal({
   className?: string;
   as?: ElementType;
 }) {
+  // The observed wrapper stays unclipped — clip-path on the observed node itself
+  // can zero out its intersection rect and the reveal never fires.
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <Tag
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={cn("reveal", variants[variant], visible && "is-visible", className)}
-    >
-      {children}
+    <Tag ref={ref} className={className}>
+      <div
+        style={{ transitionDelay: `${delay}ms` }}
+        className={cn("reveal", variants[variant], visible && "is-visible")}
+      >
+        {children}
+      </div>
     </Tag>
   );
 }
