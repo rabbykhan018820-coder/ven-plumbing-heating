@@ -7,6 +7,8 @@ import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
 import { Services } from "@/components/site/Services";
 import { Reel } from "@/components/site/Reel";
+import { BeforeAfter } from "@/components/site/BeforeAfter";
+import { WorkGallery } from "@/components/site/WorkGallery";
 import { Process } from "@/components/site/Process";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { Contact } from "@/components/site/Contact";
@@ -46,6 +48,8 @@ function Index() {
         <Marquee />
         <Services />
         <Reel />
+        <BeforeAfter />
+        <WorkGallery />
         <Process />
         <EmergencyCTA />
         <Contact />

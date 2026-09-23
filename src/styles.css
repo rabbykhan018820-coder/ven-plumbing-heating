@@ -181,6 +181,15 @@
   }
 }
 
+@keyframes ven-gallery-next {
+  from { opacity: 0.55; transform: translate(-42%, -50%) scale(0.9) rotate(3deg); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+}
+@keyframes ven-gallery-prev {
+  from { opacity: 0.55; transform: translate(-58%, -50%) scale(0.9) rotate(-3deg); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+}
+
 /* ---------- Utilities ---------- */
 @utility container-ven {
   width: 100%;
@@ -204,6 +213,13 @@
 
 /* Reveal system — variants applied per section for variety */
 @layer components {
+  .gallery-enter-next {
+    animation: ven-gallery-next 700ms var(--ease-premium) both;
+  }
+  .gallery-enter-prev {
+    animation: ven-gallery-prev 700ms var(--ease-premium) both;
+  }
+
   .reveal {
     opacity: 0;
     transition:
