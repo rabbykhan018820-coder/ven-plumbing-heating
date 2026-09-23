@@ -17,6 +17,7 @@ import repairs from "@/assets/service-repairs.jpg";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type Service = {
   no: string;
@@ -40,13 +41,14 @@ const SERVICES: Service[] = [
 function ServiceItem({ service, active, onActivate }: { service: Service; active: boolean; onActivate: () => void }) {
   const Icon = service.icon;
   return (
-    <button
+    <Button
       type="button"
       onClick={onActivate}
       onMouseEnter={onActivate}
       aria-expanded={active}
+      variant="ghost"
       className={cn(
-        "group relative w-full overflow-hidden border-t border-border text-left transition-[background-color,border-color] duration-500 last:border-b",
+        "group relative h-auto w-full justify-start overflow-hidden rounded-none border-t border-border p-0 text-left whitespace-normal transition-[background-color,border-color] duration-500 last:border-b hover:bg-foreground/[0.035] hover:text-foreground",
         active && "border-copper/50 bg-foreground/[0.035]",
       )}
     >
@@ -63,7 +65,7 @@ function ServiceItem({ service, active, onActivate }: { service: Service; active
           <Icon size={17} strokeWidth={1.6} />
         </span>
       </span>
-    </button>
+    </Button>
   );
 }
 
