@@ -1,62 +1,40 @@
+import { Play } from "lucide-react";
 import { Reveal } from "./Reveal";
+import { SectionHeading } from "./SectionHeading";
 
-/**
- * Empty reel placeholder — intentionally contains NO video.
- * Replace the inner frame content with the client's real reel when supplied.
- */
+const REELS = ["01", "02", "03", "04"];
+const DESKTOP_POSITIONS = ["lg:translate-y-10 lg:-rotate-2", "lg:-translate-y-3 lg:rotate-1", "lg:translate-y-5 lg:-rotate-1", "lg:-translate-y-7 lg:rotate-2"];
+
 export function Reel() {
   return (
-    <section id="reel" className="py-24 lg:py-32">
+    <section id="reel" className="overflow-hidden py-24 lg:py-36">
       <div className="container-ven">
-        <Reveal variant="scale">
-          <div
-            data-cursor="reel"
-            className="group relative overflow-hidden rounded-[2rem] border border-border p-1"
-            style={{ background: "var(--gradient-panel)" }}
-          >
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -inset-[40%] opacity-25 transition-opacity duration-700 group-hover:opacity-50"
-              style={{
-                background:
-                  "conic-gradient(from 0deg, transparent 0 62%, oklch(0.72 0.145 52 / 70%) 78%, transparent 92%)",
-                animation: "ven-border-spin 9s linear infinite",
-              }}
-            />
-            <div className="relative flex aspect-[16/9] flex-col items-center justify-center rounded-[1.8rem] bg-background/92 transition-transform duration-[600ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[0.995]">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-[1.8rem] shadow-[inset_0_0_120px_-40px_oklch(0.72_0.145_52/45%)]"
-              />
-              <span
-                aria-hidden
-                className="shine-layer rounded-[1.8rem]"
-              >
-                <span className="absolute inset-y-0 -left-1/3 w-1/4 bg-[linear-gradient(90deg,transparent,oklch(1_0_0/8%),transparent)] [animation:ven-shine_6s_ease-in-out_infinite]" />
-              </span>
-
-              <p className="eyebrow relative">Our reel</p>
-
-              <div className="relative mt-7 flex h-24 w-24 items-center justify-center">
-                <span
-                  aria-hidden
-                  className="absolute inset-0 rounded-full border border-copper/40"
-                  style={{ animation: "ven-ring 3.2s ease-out infinite" }}
-                />
-                <span className="flex h-24 w-24 items-center justify-center rounded-full border border-border transition-all duration-[500ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-110 group-hover:border-copper/70">
-                  <svg width="26" height="30" viewBox="0 0 24 28" fill="none" stroke="currentColor" strokeWidth="1.4" className="ml-1 text-copper transition-transform duration-[500ms] group-hover:scale-110" aria-hidden>
-                    <path d="M2 2 L22 14 L2 26 Z" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </div>
-
-              <p className="relative mt-7 font-display text-2xl font-extrabold tracking-[0.18em] uppercase sm:text-3xl">
-                Video coming soon
-              </p>
-              <p className="relative mt-3 max-w-sm px-6 text-center text-sm text-muted-foreground">
-                Our full workmanship reel is in production. This frame is reserved for it.
-              </p>
-            </div>
+        <div className="flex items-end justify-between gap-8">
+          <SectionHeading label="Behind the work" title="Four reels. One standard." />
+          <p className="hidden max-w-xs pb-2 text-right text-sm leading-6 text-muted-foreground md:block">A future home for real site moments, careful finishes and the people behind the work.</p>
+        </div>
+        <Reveal variant="up">
+          <div className="-mx-5 mt-16 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-8 pb-14 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-3 lg:pb-20 [&::-webkit-scrollbar]:hidden">
+            {REELS.map((number, index) => (
+              <article key={number} data-cursor="reel" className={`group relative w-[76vw] shrink-0 snap-center transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-3 sm:w-[19rem] lg:w-auto ${DESKTOP_POSITIONS[index] ?? ""}`}>
+                {/* Replace with client's real reel */}
+                <div className="reel-frame relative aspect-[9/16] overflow-hidden rounded-[1.4rem] border border-border bg-card p-1 shadow-[var(--shadow-lift)] transition-[border-color,box-shadow] duration-500 group-hover:border-copper/60 group-hover:shadow-[var(--glow-copper)]">
+                  <div className="relative flex h-full flex-col items-center justify-center overflow-hidden rounded-[1.15rem] bg-background">
+                    <span aria-hidden className="absolute inset-0 opacity-70 [background:radial-gradient(circle_at_50%_38%,color-mix(in_oklab,var(--copper)_18%,transparent),transparent_48%)]" />
+                    <span aria-hidden className="absolute inset-0 opacity-20 [background-image:linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] [background-size:2.25rem_2.25rem]" />
+                    <span aria-hidden className="absolute -inset-y-10 -left-1/2 w-1/3 skew-x-[-18deg] bg-foreground/[0.06] transition-transform duration-1000 group-hover:translate-x-[520%]" />
+                    <span className="absolute top-5 left-5 font-display text-xs font-extrabold tracking-[0.18em] text-copper">REEL {number}</span>
+                    <span className="relative flex h-20 w-20 items-center justify-center rounded-full border border-copper/40 bg-background/50 text-copper backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+                      <span className="absolute inset-2 rounded-full border border-border" />
+                      <Play size={25} strokeWidth={1.4} fill="currentColor" className="relative ml-1" />
+                    </span>
+                    <p className="relative mt-6 font-display text-sm font-extrabold tracking-[0.16em] uppercase">Video coming soon</p>
+                    <p className="relative mt-2 text-xs text-muted-foreground">Reserved for your real work</p>
+                    <span className="absolute right-5 bottom-5 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">9 : 16</span>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </Reveal>
       </div>

@@ -1,4 +1,16 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+import {
+  ArrowUpRight,
+  CircleDotDashed,
+  Droplets,
+  Flame,
+  Gauge,
+  Pipette,
+  ShowerHead,
+  Toilet,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import heating from "@/assets/service-heating.jpg";
 import bathroom from "@/assets/service-bathroom.jpg";
 import repairs from "@/assets/service-repairs.jpg";
@@ -6,104 +18,92 @@ import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
-const SERVICES = [
-  {
-    no: "01",
-    title: "Central heating installations",
-    copy: "Full system design, new radiators, smart controls and balanced flow across the house.",
-    img: heating,
-  },
-  {
-    no: "02",
-    title: "Boiler servicing & repairs",
-    copy: "Annual services, fault finding and same-week repairs on all major boiler brands.",
-    img: heating,
-  },
-  {
-    no: "03",
-    title: "Bathroom installations",
-    copy: "From first fix to final seal — tiling, wet rooms, showers and fitted suites.",
-    img: bathroom,
-  },
-  {
-    no: "04",
-    title: "Emergency plumbing",
-    copy: "Leaks, burst pipes and no-heat call-outs handled fast, day or night.",
-    img: repairs,
-  },
+type Service = {
+  no: string;
+  title: string;
+  copy: string;
+  icon: LucideIcon;
+  image: string;
+};
+
+const SERVICES: Service[] = [
+  { no: "01", title: "Leak Detection & Repair", copy: "Pinpointing hidden leaks quickly, then making a clean, lasting repair with minimal disruption.", icon: Droplets, image: repairs },
+  { no: "02", title: "Drain Cleaning", copy: "Professional clearing for slow, blocked or recurring drains, with the cause properly investigated.", icon: CircleDotDashed, image: repairs },
+  { no: "03", title: "Faucet & Fixture Repair", copy: "Precise repairs and upgrades for taps, showers and fixtures, finished neatly and tested thoroughly.", icon: ShowerHead, image: bathroom },
+  { no: "04", title: "Toilet Repair & Replacement", copy: "Reliable fixes for leaks, flushing faults and blockages, plus careful full replacements when required.", icon: Toilet, image: bathroom },
+  { no: "05", title: "Water Heater Services", copy: "Servicing, fault diagnosis and efficient replacement options to keep hot water dependable.", icon: Flame, image: heating },
+  { no: "06", title: "Pipe Repair", copy: "Safe repairs for damaged, corroded or burst pipework using durable, professional-grade materials.", icon: Pipette, image: heating },
+  { no: "07", title: "Emergency Plumbing", copy: "Fast help for urgent leaks, bursts and loss of water, with clear guidance while we travel to you.", icon: Gauge, image: repairs },
+  { no: "08", title: "General Plumbing", copy: "Trusted everyday plumbing, maintenance and practical improvements for homes and landlords.", icon: Wrench, image: bathroom },
 ];
 
-function ServiceRow({ s, index }: { s: (typeof SERVICES)[number]; index: number }) {
-  const ref = useRef<HTMLAnchorElement | null>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
+function ServiceItem({ service, active, onActivate }: { service: Service; active: boolean; onActivate: () => void }) {
+  const Icon = service.icon;
   return (
-    <Reveal variant={index % 2 === 0 ? "left" : "right"} delay={index * 90}>
-      <a
-        ref={ref}
-        href="#contact"
-        data-cursor="explore"
-        onMouseMove={(e) => {
-          const r = e.currentTarget.getBoundingClientRect();
-          setTilt({ x: ((e.clientX - r.left) / r.width - 0.5) * 8, y: ((e.clientY - r.top) / r.height - 0.5) * 6 });
-        }}
-        onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-        style={{ transform: `translate3d(${tilt.x}px, ${tilt.y}px, 0)` }}
-        className={cn(
-          "group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-border px-2 py-8",
-          "transition-[transform,background-color,box-shadow] duration-[420ms] ease-[cubic-bezier(.22,1,.36,1)]",
-          "hover:bg-foreground/[0.03] hover:shadow-[var(--shadow-lift)] active:scale-[0.995] sm:px-6",
-        )}
-      >
-        <span
-          aria-hidden
-          className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[var(--gradient-copper)] transition-transform duration-[520ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-x-100"
-        />
-        <span className="font-display text-xl font-extrabold text-muted-foreground transition-all duration-[420ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-125 group-hover:text-copper sm:text-2xl">
-          {s.no}
-        </span>
-
-        <span className="min-w-0">
-          <span className="block font-display text-xl leading-tight font-extrabold tracking-tight uppercase transition-transform duration-[420ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-2 sm:text-3xl">
-            {s.title}
-          </span>
-          <span className="mt-2 block max-w-xl text-sm text-muted-foreground transition-all duration-[420ms] group-hover:translate-x-2 group-hover:text-foreground/80">
-            {s.copy}
+    <button
+      type="button"
+      onClick={onActivate}
+      onMouseEnter={onActivate}
+      aria-expanded={active}
+      className={cn(
+        "group relative w-full overflow-hidden border-t border-border text-left transition-[background-color,border-color] duration-500 last:border-b",
+        active && "border-copper/50 bg-foreground/[0.035]",
+      )}
+    >
+      <span className={cn("absolute inset-y-0 left-0 w-0.5 origin-top bg-copper transition-transform duration-500", active ? "scale-y-100" : "scale-y-0")} />
+      <span className="grid grid-cols-[3.25rem_1fr_auto] items-center gap-3 px-3 py-5 sm:grid-cols-[4rem_1fr_auto] sm:px-5">
+        <span className={cn("font-display text-2xl font-extrabold transition-all duration-500 sm:text-3xl", active ? "translate-x-1 text-copper" : "text-muted-foreground")}>{service.no}</span>
+        <span>
+          <span className="block font-display text-base font-extrabold uppercase sm:text-xl">{service.title}</span>
+          <span className={cn("grid transition-[grid-template-rows,opacity] duration-500 md:hidden", active ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+            <span className="overflow-hidden"><span className="block max-w-md pt-3 pr-4 text-sm leading-6 text-muted-foreground">{service.copy}</span></span>
           </span>
         </span>
-
-        <span className="flex items-center gap-4">
-          <span className="relative hidden h-20 w-32 overflow-hidden rounded-xl opacity-0 transition-all duration-[520ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-x-0 group-hover:opacity-100 md:block md:translate-x-4">
-            <img
-              src={s.img}
-              alt=""
-              loading="lazy"
-              width={1200}
-              height={912}
-              className="h-full w-full object-cover transition-transform duration-[700ms] group-hover:scale-110"
-            />
-          </span>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-sm transition-all duration-[420ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:border-copper group-hover:bg-copper group-hover:text-primary-foreground">
-            <span className="transition-transform duration-[420ms] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              ↗
-            </span>
-          </span>
+        <span className={cn("flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-500", active ? "rotate-6 border-copper bg-copper text-primary-foreground shadow-[var(--glow-copper)]" : "border-border text-muted-foreground")}>
+          <Icon size={17} strokeWidth={1.6} />
         </span>
-      </a>
-    </Reveal>
+      </span>
+    </button>
   );
 }
 
 export function Services() {
+  const [active, setActive] = useState(0);
+  const selected = SERVICES[active] ?? SERVICES[0];
+  if (!selected) return null;
+  const SelectedIcon = selected.icon;
+
   return (
-    <section id="services" className="py-24 lg:py-32">
+    <section id="services" className="relative overflow-hidden py-24 lg:py-32">
+      <span aria-hidden className="pointer-events-none absolute top-1/3 -right-40 h-96 w-96 rounded-full bg-copper/10 blur-[120px]" />
       <div className="container-ven">
-        <SectionHeading label="What we do" title="Heating & plumbing, done properly" />
-        <div className="mt-14">
-          {SERVICES.map((s, i) => (
-            <ServiceRow key={s.no} s={s} index={i} />
-          ))}
-          <span className="block border-t border-border" />
+        <SectionHeading label="What we do" title="Eight ways we keep things flowing" />
+        <div className="mt-14 grid items-start gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(20rem,.9fr)] lg:gap-16">
+          <Reveal variant="left">
+            <div className="relative z-10">{SERVICES.map((service, index) => <ServiceItem key={service.no} service={service} active={active === index} onActivate={() => setActive(index)} />)}</div>
+          </Reveal>
+
+          <Reveal variant="right" className="sticky top-28 hidden md:block">
+            <div className="group relative min-h-[35rem] overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-[var(--shadow-lift)]">
+              <img key={selected.no} src={selected.image} alt="" className="absolute inset-0 h-full w-full animate-fade-in object-cover opacity-45 transition-transform duration-[1400ms] group-hover:scale-105" />
+              <span className="absolute inset-0 bg-[linear-gradient(to_top,var(--ink)_5%,transparent_78%)]" />
+              <span className="absolute inset-0 bg-[linear-gradient(to_bottom_right,var(--ink)_0%,transparent_50%)]" />
+              <div className="relative flex min-h-[35rem] flex-col justify-between p-7 lg:p-10">
+                <div className="flex items-start justify-between">
+                  <span className="font-display text-7xl font-extrabold text-foreground/10 lg:text-8xl">{selected.no}</span>
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full border border-copper/50 bg-background/60 text-copper backdrop-blur-md"><SelectedIcon size={24} strokeWidth={1.5} /></span>
+                </div>
+                <div key={`${selected.no}-copy`} className="animate-fade-in">
+                  <p className="eyebrow">Selected service</p>
+                  <h3 className="mt-4 font-display text-3xl leading-none font-extrabold uppercase lg:text-5xl">{selected.title}</h3>
+                  <p className="mt-5 max-w-md text-sm leading-6 text-foreground/70">{selected.copy}</p>
+                  <a href="#contact" className="group/link mt-8 inline-flex items-center gap-3 font-display text-xs font-extrabold tracking-[0.16em] uppercase">
+                    Discuss this service <ArrowUpRight size={17} className="text-copper transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
